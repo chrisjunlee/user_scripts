@@ -9,22 +9,32 @@
 // ==/UserScript==
 
 var $ = window.$;
-
 (function() {
     'use strict';
 
     GM_addStyle ( ".CheckoutHideOrderTermsAndConditions { display: none !important; }");
 })();
 
-$(document).ready(function() {
-    // cloning a row
-    var newnode = $("div.dashboardmetricblock").last().clone();
+class ClonedNode {
+    constructor(prototypeNode, name, val){
+        this.node = prototypeNode.clone();
+        $(".scorelabel", this.node).html(name);
+        $(".reputationscore", this.node).html(val);
+        $("div.dashboardmetricblock").parent().append(this.node);
+    }
+}
 
-    // filling row with our data and adding
-    var count = $('#PastInterviewsTable .interviewLine td:first-of-type:contains("2019")').length;
-    $(".scorelabel", newnode).html("Completed:");
-    $(".reputationscore", newnode).html(count);
-    $("div.dashboardmetricblock").parent().append(newnode);
+$(document).ready(function() {
+    var pastSessionRows = $('#PastInterviewsTable .interviewLine').has('td:contains("2019")');
+    var algoCount = pastSessionRows.has('[data-label=Type]:contains("Algorithms")').length;
+    var sysDesCount = pastSessionRows.has('[data-label=Type]:contains("System Design")').length;
+    var behavioralCount = pastSessionRows.has('[data-label=Type]:contains("Behavioral")').length;
+
+    // cloning a row
+    var prototypeNode = $("div.dashboardmetricblock").last();
+    var algoNode = new ClonedNode(prototypeNode, "Algorithms:", algoCount);
+    var sysDesNode = new ClonedNode(prototypeNode, "System Design:", sysDesCount);
+    var behavioralNode = new ClonedNode(prototypeNode, "Behavioral:", behavioralCount);
 
     // changing "No Shows:" text color
     $("div.dashboardmetricblock:contains('No Shows') .reputationscore").css("color", "rgb(108, 110, 112)");
