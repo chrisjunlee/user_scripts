@@ -36,6 +36,9 @@ $(document).ready(function() {
     var sysDesNode = new ClonedNode(prototypeNode, "System Design:", sysDesCount);
     var behavioralNode = new ClonedNode(prototypeNode, "Behavioral:", behavioralCount);
 
+    // fixes table overlap issue
+    $("div#user-metrics").css("height", "fit-content")
+
     // changing "No Shows:" text color
     $("div.dashboardmetricblock:contains('No Shows') .reputationscore").css("color", "rgb(108, 110, 112)");
 });
