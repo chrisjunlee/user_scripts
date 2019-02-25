@@ -27,7 +27,8 @@ function update_title() {
     var new_str = title_node.innerText.replace(/(^[0-9]*)(\..*)/, pad_number);
 
     function pad_number(str, group1, group2) {
-        return group1.padStart("4", "0") + group2.replace(/[^a-zA-Z0-9]/g, "_").replace(/_+(?=_)/g, "").toLowerCase() + ".py"
+        var rating = $('div[diff]').text()[0];
+        return group1.padStart("4", "0") + rating + group2.replace(/[^a-zA-Z0-9]/g, "_").replace(/_+(?=_)/g, "").toLowerCase() + ".py"
     }
 
     title_node.innerText = new_str;
