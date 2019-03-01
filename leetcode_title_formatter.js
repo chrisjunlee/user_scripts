@@ -1,5 +1,6 @@
 // ==UserScript==
-// @name         Title Formatter
+// @name         Leetcode Title Formatter
+// @description  Renames title for easy python project creation
 // @namespace    http://tampermonkey.net/
 // @author       chrisjunlee
 // @match        https://leetcode.com/problems/*
@@ -32,4 +33,7 @@ function update_title() {
     }
 
     title_node.innerText = new_str;
+
+    // auto-copy on-click (onselect doesn't work for non-editable elements)
+    title_node.addEventListener("onclick", function () { document.execCommand("copy"); });
 }
